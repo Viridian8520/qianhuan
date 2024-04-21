@@ -4,6 +4,7 @@ export let CONTENT = function (config, pack) {
     if((lib.config.qhly_funcLoadInPrecontent || game.qhly_hasExtension("如真似幻")) && !window.qhly_inPercontent){
       return;
     }
+    var skinSwitch = window.skinSwitch;
     const qhlyLib = ['qhly_skinShare', 'qhly_skinEdit', 'qhly_skinChange', 'qhly_changeSkillSkin'];
     for (let l of qhlyLib) if (!lib[l]) lib[l] = {};
     var qhly_DynamicPlayer = (function () {
@@ -194,7 +195,7 @@ export let CONTENT = function (config, pack) {
             }
           }
         }
-        if (game.qhly_hasExtension('皮肤切换') && lib.config[skinSwitch.configKey.useDynamic]) {
+        if (game.qhly_hasExtension('皮肤切换') && window.skinSwitch && lib.config[window.skinSwitch.configKey.useDynamic]) {
           window.dynamicExt = window.skinSwitch;
           skinSwitch.dynamic.transformDst = function (player, isPrimary, dstInfo, extraParams = { isOrigin: false, huanfuEffect: null }) {
             const avatar = isPrimary ? player.dynamic.primary : player.dynamic.deputy
@@ -1247,7 +1248,7 @@ export let CONTENT = function (config, pack) {
             }
 
           }
-          if (game.qhly_hasExtension('皮肤切换') && lib.config[skinSwitch.configKey.useDynamic]) {
+          if (game.qhly_hasExtension('皮肤切换') && window.skinSwitch && lib.config[window.skinSwitch.configKey.useDynamic]) {
             // 开启自动播放play2模式
             skinSwitch.dynamic.startPlay2Random(this)
           }
@@ -1678,7 +1679,7 @@ export let CONTENT = function (config, pack) {
         dynamic.primary = avatar;
       }
       this.classList.add(deputy ? 'd-skin2' : 'd-skin');
-      if (game.qhly_hasExtension('皮肤切换') && lib.config[skinSwitch.configKey.useDynamic]) {
+      if (game.qhly_hasExtension('皮肤切换') && window.skinSwitch && lib.config[window.skinSwitch.configKey.useDynamic]) {
         skinSwitch.chukuangPlayerInit(this, !deputy, animation.player)
       }
     }
@@ -2217,13 +2218,13 @@ export let CONTENT = function (config, pack) {
             }
             game.qhly_checkYH(node);
             // 修改9 start
-            if (game.qhly_hasExtension('皮肤切换') && lib.config[skinSwitch.configKey.useDynamic]) {
+            if (game.qhly_hasExtension('皮肤切换') && window.skinSwitch && lib.config[window.skinSwitch.configKey.useDynamic]) {
               // 出框worker的初始化
               skinSwitch.chukuangPlayerInit(node, !bool2, skinCopy)
             }
             // 开启当前角色的定时播放动作
             if (get.itemtype(node) == 'player') {
-              if (game.qhly_hasExtension('皮肤切换') && lib.config[skinSwitch.configKey.useDynamic]) {
+              if (game.qhly_hasExtension('皮肤切换') && window.skinSwitch && lib.config[window.skinSwitch.configKey.useDynamic]) {
                 skinSwitch.dynamic.startPlay2Random(node)
               }
             }
@@ -2468,7 +2469,7 @@ export let CONTENT = function (config, pack) {
         clearTimeout(_status.texiaoTimer2);
         return;
       }
-      if (game.qhly_hasExtension('皮肤切换') && lib.config[skinSwitch.configKey.useDynamic]) {
+      if (game.qhly_hasExtension('皮肤切换') && window.skinSwitch && lib.config[window.skinSwitch.configKey.useDynamic]) {
         node.isQhlx = true // 表示当前动皮角色是千幻雷修版本的
         window.skinSwitch.postMsgApi.actionGongJi(node)  // 直接调用封装的播放动皮
       } else {
