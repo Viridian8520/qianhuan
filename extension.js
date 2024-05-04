@@ -1,15 +1,24 @@
 //game.import( name:"千幻聆音"
 //提示：本扩展源代码基于GPL协议向无名杀社区开放，欢迎大家借鉴和参考代码。
 //import { VERSION } from './version.js'
+// @ts-ignore
 import { lib,get,_status,ui,game,ai } from './extension/noname.js';
 import { CONFIG } from './extension/config.js';
 import { CONTENT } from './extension/content.js';
 import { PRECONTENT } from './extension/precontent.js';
 
+// @ts-ignore
 lib.element.player.qh_old_init = lib.element.player.init;
+// @ts-ignore
 lib.element.player.qh_old_$init = lib.element.player.$init;
+// @ts-ignore
+lib.element.player.qh_old_uninit = lib.element.player.uninit;
+// @ts-ignore
+lib.element.player.qh_old_$uninit = lib.element.player.$uninit;
 
+// @ts-ignore
 if (!window.qhlyUI) window.qhlyUI = {};
+// @ts-ignore
 window.qhlyUI.assets = {
   huanpifu: {
     name: '../../../千幻聆音/assets/huanpifu',
@@ -56,6 +65,7 @@ let mainPackageFunc = async function(){
       version: extensionInfo.version,
     }, files: { "character": [], "card": [], "skill": [] }
   };
+  // @ts-ignore
   window.qhly_extension_package = mainPackage;
   return mainPackage;
 };
