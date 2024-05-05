@@ -5860,7 +5860,7 @@ export let CONTENT = function (config, pack) {
     game.playAudio = function () {
       if(_status.event && _status.event.name === 'dcbenxi'){
         // @ts-ignore
-        return game.qhly_originPlayAudio.apply(this, args);
+        return game.qhly_originPlayAudio.apply(this, arguments);
       }
       var string = '';
       var others = [];
