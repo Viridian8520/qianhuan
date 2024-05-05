@@ -1515,9 +1515,13 @@ export let CONTENT = function (config, pack) {
       this.node.name2.innerHTML = '';
       // @ts-ignore
       this.qh_old_uninit.call(this,...arguments);
+      var forces = 'qun';
+      // @ts-ignore
+      if (lib.character[this]) forces = lib.character[this][1];
       // @ts-ignore
       game.qhly_checkYH(this, forces);
     }
+    /*
     function qhly_uninit() {
       // @ts-ignore
       if (this.$jieMark) {
@@ -1641,7 +1645,7 @@ export let CONTENT = function (config, pack) {
       // @ts-ignore
       game.qhly_checkYH(this, forces);
       return this;
-    }
+    }*/
     function qhly_reinit(from, to, maxHp, online) {
       var info1 = lib.character[from];
       var info2 = lib.character[to];
