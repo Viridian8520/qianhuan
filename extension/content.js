@@ -453,27 +453,27 @@ export let CONTENT = function (config, pack) {
                   // @ts-ignore
                   if (skinCopy.dynamicBackground && lib.qhly_skinEdit[game.qhly_getRealName(avatars[i])][editSkin].player[editArgument2] && lib.qhly_skinEdit[game.qhly_getRealName(avatars[i])][editSkin].player[editArgument2][theme]) {
                     // @ts-ignore
-                    var resetBeijing = lib.qhly_skinEdit[game.qhly_getRealName(avatars[i])][editSkin].player[editArgument2][theme];
+                    var resetBackground = lib.qhly_skinEdit[game.qhly_getRealName(avatars[i])][editSkin].player[editArgument2][theme];
                     if (typeof skinCopy.dynamicBackground === 'string') {
                       skinCopy.dybg = {
                         name: skinCopy.dynamicBackground,
                         zhu: skinCopy.zhu,
                         dybg: true,
                         loop: true,
-                        x: resetBeijing.x,
-                        y: resetBeijing.y,
-                        scale: resetBeijing.scale,
-                        angle: resetBeijing.angle,
+                        x: resetBackground.x,
+                        y: resetBackground.y,
+                        scale: resetBackground.scale,
+                        angle: resetBackground.angle,
                       };
                     } else {
                       skinCopy.dybg = skinCopy.dynamicBackground;
                       skinCopy.dybg.dybg = true;
                       skinCopy.dybg.loop = true;
                       skinCopy.dybg.zhu = skinCopy.zhu;
-                      skinCopy.dybg.x = resetBeijing.x;
-                      skinCopy.dybg.y = resetBeijing.y;
-                      skinCopy.dybg.scale = resetBeijing.scale;
-                      skinCopy.dybg.angle = resetBeijing.angle;
+                      skinCopy.dybg.x = resetBackground.x;
+                      skinCopy.dybg.y = resetBackground.y;
+                      skinCopy.dybg.scale = resetBackground.scale;
+                      skinCopy.dybg.angle = resetBackground.angle;
                     }
                   }
                 }
@@ -1040,6 +1040,7 @@ export let CONTENT = function (config, pack) {
             game.players[i].playDynamic = qhly_playdynamic;
             // @ts-ignore
             game.players[i].stopDynamic = qhly_stopdynamic;
+            // @ts-ignore
             game.players[i].showCharacter = qhly_showcharacter;
           }
         }
@@ -2136,6 +2137,7 @@ export let CONTENT = function (config, pack) {
       trigger: { global: 'die' },
       // @ts-ignore
       filter: function (event, player) {
+        // @ts-ignore
         if (!event.source || !event.source.name1 || event._qhlyChangeKillSkin) return false;
         // @ts-ignore
         return lib.qhly_skinChange[game.qhly_getRealName(event.source.name1)] || lib.qhly_skinChange[game.qhly_getRealName(event.source.name2)];
@@ -4744,6 +4746,7 @@ export let CONTENT = function (config, pack) {
       },
       // @ts-ignore
       filter: function (event, player) {
+        // @ts-ignore
         if (event.qhly_bgmflag) return false;
         return lib.config.qhly_enableCharacterMusic;
       },
@@ -5760,6 +5763,10 @@ export let CONTENT = function (config, pack) {
       return audio;
     };
     game.playAudio = function () {
+      if(_status.event && _status.event.name === 'dcbenxi'){
+        // @ts-ignore
+        return game.qhly_originPlayAudio.apply(this, args);
+      }
       var string = '';
       var others = [];
       for (var arg of arguments) {//将参数拼接成一个字符串，方便查找映射
