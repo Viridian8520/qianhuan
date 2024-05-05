@@ -1,6 +1,8 @@
-// @ts-ignore
+// @ts-nocheck
 import {lib,get,_status,ui,game,ai} from './noname.js';
 import {nonameInitialized} from '../../../noname/util/index.js'
+// @ts-ignore
+// @ts-ignore
 // @ts-ignore
 export let CONTENT = function (config, pack) {
     // @ts-ignore
@@ -187,6 +189,8 @@ export let CONTENT = function (config, pack) {
     // @ts-ignore
     lib.arenaReady.push(function () {
       const oldLogSkill = lib.element.player.logSkill;
+      // @ts-ignore
+      // @ts-ignore
       // @ts-ignore
       lib.element.player.logSkill = function (name, targets, nature, logv) {
         // @ts-ignore
@@ -1225,7 +1229,11 @@ export let CONTENT = function (config, pack) {
     // @ts-ignore
     var qhly_oldinit = lib.element.player.qh_old_init;
     // @ts-ignore
+    // @ts-ignore
+    // @ts-ignore
     var qhly_old$init = lib.element.player.qh_old_$init;
+    // @ts-ignore
+    // @ts-ignore
     // @ts-ignore
     function qhly_init(character, character2, skill) {
       // @ts-ignore
@@ -1434,6 +1442,8 @@ export let CONTENT = function (config, pack) {
         this._qhlyClickTime = Date.now();
       });
       // @ts-ignore
+      // @ts-ignore
+      // @ts-ignore
       this.node.avatar.addEventListener(lib.config.touchscreen ? "touchend" : "mouseup", function (e) {
         if (!this._qhlyClickTime || Date.now() - this._qhlyClickTime > 400 || this.parentNode.classList.contains('selectable') || this.parentNode.classList.contains('target') || this.parentNode.isUnseen(0)) return;
         timer = setTimeout(function () {
@@ -1449,6 +1459,8 @@ export let CONTENT = function (config, pack) {
         clearTimeout(timer);
         this._qhlyClickTime = Date.now();
       });
+      // @ts-ignore
+      // @ts-ignore
       // @ts-ignore
       this.node.avatar2.addEventListener(lib.config.touchscreen ? "touchend" : "mouseup", function (e) {
         if (!this.parentNode.doubleAvatar || !this._qhlyClickTime || Date.now() - this._qhlyClickTime > 400 || this.parentNode.classList.contains('selectable') || this.parentNode.classList.contains('target') || this.parentNode.isUnseen(1)) return;
@@ -2007,6 +2019,8 @@ export let CONTENT = function (config, pack) {
       }
     }
     // @ts-ignore
+    // @ts-ignore
+    // @ts-ignore
     function qhly_showcharacter(num, log) {
       var toShow = [];
       if ((num == 0 || num == 2) && this.isUnseen(0)) toShow.add(this.name1);
@@ -2088,6 +2102,8 @@ export let CONTENT = function (config, pack) {
         global: 'phaseEnd',
       },
       // @ts-ignore
+      // @ts-ignore
+      // @ts-ignore
       filter: function (event, player) {
         // @ts-ignore
         return lib.qhly_skinChange[game.qhly_getRealName(player.name1)] || lib.qhly_skinChange[game.qhly_getRealName(player.name2)];
@@ -2139,6 +2155,8 @@ export let CONTENT = function (config, pack) {
     }
     lib.skill._qhlyChageKillingSkin = {
       trigger: { global: 'die' },
+      // @ts-ignore
+      // @ts-ignore
       // @ts-ignore
       filter: function (event, player) {
         // @ts-ignore
@@ -2672,6 +2690,8 @@ export let CONTENT = function (config, pack) {
       }
     }
     // @ts-ignore
+    // @ts-ignore
+    // @ts-ignore
     game.qhly_checkPlayerImageAudio = function (name, skin, player, callbacka, callbackb, force) {
       // @ts-ignore
       var skinName = game.qhly_earse_ext(skin);
@@ -3045,6 +3065,8 @@ export let CONTENT = function (config, pack) {
                   if (e.data) {
                     game.playAudio("..", "extension", "EngEX/audio/effect", res.dynamic.name + ".mp3");
                     // @ts-ignore
+                    // @ts-ignore
+                    // @ts-ignore
                     renderer.onmessage = function (e) {
                       //if (dynamicWrap) dynamicWrap.style.zIndex = "62";
                       if (canvas) {
@@ -3397,6 +3419,8 @@ export let CONTENT = function (config, pack) {
           func.call(this, e);
         });
         // @ts-ignore
+        // @ts-ignore
+        // @ts-ignore
         var fallback = function (e) {
           this.removeEventListener('click', fallback);
         }
@@ -3469,7 +3493,11 @@ export let CONTENT = function (config, pack) {
         }
       } else {
         // @ts-ignore
+        // @ts-ignore
+        // @ts-ignore
         resolveLocalFileSystemURL(nonameInitialized + path, (function (name) {
+          // @ts-ignore
+          // @ts-ignore
           // @ts-ignore
           return function (entry) {
             callback(true);
@@ -3744,6 +3772,10 @@ export let CONTENT = function (config, pack) {
     }
     // @ts-ignore
     game.qhly_setDoubleGroup = function (state) {
+      let border = get.character(state.name);
+      if(border){
+        border = border.groupBorder;
+      }
       var group, dg;
       if (lib.config.qhly_doubleGroup && lib.config.qhly_doubleGroup[state.name]) {
         if (lib.config.doubleGroupCharacter && lib.config.doubleGroupCharacter.includes(state.name) || get.is.double(state.name)) {
@@ -3778,8 +3810,18 @@ export let CONTENT = function (config, pack) {
         else if (dg) path = group;
       }
       if (path) {
-        var url1 = `url('${state.pkg.ssborder || 'shousha/'}${group}.png')`;
-        var url2 = `url('${state.pkg.ssborder || 'shousha/'}${group}_top.png')`;
+        var url1;
+        if(border){
+          url1 = `url('${state.pkg.ssborder || 'shousha/border2/'}${group}_zi.png'),url('${state.pkg.ssborder || 'shousha/border2/'}${border}_frame.png')`;
+        }else{
+          url1 = `url('${state.pkg.ssborder || 'shousha/'}${group}.png')`;
+        }
+        var url2;
+        if(border){
+          url2 = `url('${state.pkg.ssborder || 'shousha/'}${border}_top.png')`;
+        }else{
+          url2 = `url('${state.pkg.ssborder || 'shousha/'}${group}_top.png')`;
+        }
         state.mainView.avatarLabel.style.setProperty('--u', url2);
         state.mainView.avatarLabelOther.style.setProperty('--u', url1);
       }
@@ -3854,13 +3896,23 @@ export let CONTENT = function (config, pack) {
           }
         } else {
           // @ts-ignore
-          HP = HP + '';
+          if(isFinite(HP)){
+            // @ts-ignore
+            HP = 'I';
+          }else{
+            // @ts-ignore
+            HP = HP + '';
+          }
           hpNode = ui.create.div('.qh-hptextnumber', state.mainView.hp);
           // @ts-ignore
           for (var i = 0; i < HP.length; i++) {
             var hpNumber = ui.create.div('.qh-hpnumber', hpNode);
             // @ts-ignore
             hpNumber.style.backgroundImage = 'url(' + lib.qhly_path + 'theme/shousha/hp_num_' + HP.substr(i, 1) + '.png)';
+            // @ts-ignore
+            if(HP == 'I'){
+              hpNumber.style.transform = "scale(1.5)";
+            }
           }
           hpNode = ui.create.div('.qh-hpGZtext', state.mainView.hp);
           // @ts-ignore
@@ -3881,9 +3933,24 @@ export let CONTENT = function (config, pack) {
         }
         if (HP > 5 || MAXHP > 5) {
           // @ts-ignore
-          HP = HP + '';
+          if(!isFinite(HP) || HP == "infinity" || HP == "Infinity" || HP == "∞"){
+            // @ts-ignore
+            HP = 'I';
+          }else{
+            // @ts-ignore
+            HP = HP + '';
+          }
           // @ts-ignore
-          if (MAXHP) MAXHP = MAXHP + '';
+          if (MAXHP){
+            // @ts-ignore
+            if(!isFinite(MAXHP) || MAXHP == "infinity" || MAXHP == "Infinity" || MAXHP == "∞"){
+              // @ts-ignore
+              MAXHP = "I";
+            }else{
+              // @ts-ignore
+              MAXHP = MAXHP + '';
+            }
+          }
           hpNode = ui.create.div('.qh-hptextnumber', state.mainView.hp);
           if (MAXHP) {
             // @ts-ignore
@@ -3892,6 +3959,10 @@ export let CONTENT = function (config, pack) {
               // @ts-ignore
               hpNumber.style.backgroundImage = 'url(' + lib.qhly_path + 'theme/shousha/hp_num_' + MAXHP.substr(i, 1) + '.png)';
               hpNumber.style.setProperty('--w', getWidth(MAXHP, i));
+              // @ts-ignore
+              if(MAXHP == 'I'){
+                hpNumber.style.transform = "scale(1.5)";
+              }
             }
             ui.create.div('.qh-hpsplit', state.mainView.hp);
           }
@@ -3902,6 +3973,10 @@ export let CONTENT = function (config, pack) {
             // @ts-ignore
             hpNumber.style.backgroundImage = 'url(' + lib.qhly_path + 'theme/shousha/hp_num_' + HP.substr(i, 1) + '.png)';
             hpNumber.style.setProperty('--w', getWidth(HP, i));
+            // @ts-ignore
+            if(HP == 'I'){
+              hpNumber.style.transform = "scale(1.5)";
+            }
           }
           if (!MAXHP) {
             hpNode = ui.create.div('.qh-hptext', state.mainView.hp);
@@ -4057,6 +4132,8 @@ export let CONTENT = function (config, pack) {
         };
         if (s) {
           // @ts-ignore
+          // @ts-ignore
+          // @ts-ignore
           game.getFileList('extension/千幻聆音/lihui', function (folders, files) {
             if (files) {
               for (var file of files) {
@@ -4074,6 +4151,8 @@ export let CONTENT = function (config, pack) {
       game.qhly_checkFileExist(cpath, function (s) {
         if (s) {
           // @ts-ignore
+          // @ts-ignore
+          // @ts-ignore
           game.getFileList(cpath, function (folders, files) {
             lib.config.qhly_gzskinList = [];
             if (folders && folders.length) {
@@ -4090,6 +4169,8 @@ export let CONTENT = function (config, pack) {
       // @ts-ignore
       game.qhly_checkFileExist('extension/千幻聆音/sanguoaudio', function (s) {
         if (s) {
+          // @ts-ignore
+          // @ts-ignore
           // @ts-ignore
           game.getFileList('extension/千幻聆音/sanguoaudio', function (folders, files) {
             lib.config.qhly_gzaudioList = [];
@@ -4159,6 +4240,8 @@ export let CONTENT = function (config, pack) {
         // @ts-ignore
         input.appendChild(opt);
       }
+      // @ts-ignore
+      // @ts-ignore
       // @ts-ignore
       var choose = {};
       // @ts-ignore
@@ -4421,6 +4504,8 @@ export let CONTENT = function (config, pack) {
           });
         };
         // @ts-ignore
+        // @ts-ignore
+        // @ts-ignore
         onfinish = function (view) {
           for (var id in checkboxRef) {
             var item = checkboxRef[id];
@@ -4445,6 +4530,8 @@ export let CONTENT = function (config, pack) {
         // @ts-ignore
         var id = "qhly_selfedit_select_" + game.qhly_genId();
         str += "<p><select style='font-size:22px;font-family:'qh_youyuan';' id='" + id + "'></select></p>";
+        // @ts-ignore
+        // @ts-ignore
         // @ts-ignore
         onfinish = function (view) {
           var select = document.getElementById(id);
@@ -4490,6 +4577,8 @@ export let CONTENT = function (config, pack) {
     window.DEFAULT_PACKAGE = {
       isExt: false,//不是扩展武将
       fromExt: false,
+      // @ts-ignore
+      // @ts-ignore
       // @ts-ignore
       filterCharacter: function (name) {
         return true;//对所有角色生效
@@ -4748,6 +4837,8 @@ export let CONTENT = function (config, pack) {
       trigger: {
         global: 'gameStart',
       },
+      // @ts-ignore
+      // @ts-ignore
       // @ts-ignore
       filter: function (event, player) {
         // @ts-ignore
@@ -6461,13 +6552,19 @@ export let CONTENT = function (config, pack) {
             return cpkg[name] !== false;
           },
           // @ts-ignore
+          // @ts-ignore
+          // @ts-ignore
           skininfo: function (name, skinname) {
             return null;
           },
           // @ts-ignore
+          // @ts-ignore
+          // @ts-ignore
           characterTaici: function (name) {
             return null;
           },
+          // @ts-ignore
+          // @ts-ignore
           // @ts-ignore
           characterLihui: function (name, skin) {
             return null;
@@ -6530,6 +6627,8 @@ export let CONTENT = function (config, pack) {
       return list;
     };
 
+    // @ts-ignore
+    // @ts-ignore
     // @ts-ignore
     game.qhly_findAdditionSkinsName = function (name) {
       // @ts-ignore
@@ -6660,6 +6759,8 @@ export let CONTENT = function (config, pack) {
             lib.init.js(lib.assetURL + path + "/skininfo.js", null, function () {
               callback(true, handleHide(list.slice(0)));
             // @ts-ignore
+            // @ts-ignore
+            // @ts-ignore
             }, function (err) {
               callback(true, handleHide(list.slice(0)));
             });
@@ -6695,6 +6796,8 @@ export let CONTENT = function (config, pack) {
         game.qhly_checkFileExist(path, function (s) {
           if (s) {
             // @ts-ignore
+            // @ts-ignore
+            // @ts-ignore
             game.getFileList(path, function (folders, files) {
               // @ts-ignore
               if (!_status.qhly_skinListCache) _status.qhly_skinListCache = {};
@@ -6729,6 +6832,8 @@ export let CONTENT = function (config, pack) {
     };
     // @ts-ignore
     game.qhly_getSkinModels = function(name,callback,locked,loadInfoJs){
+      // @ts-ignore
+      // @ts-ignore
       // @ts-ignore
       game.qhly_getSkinList(name,function(ret, list){
         // @ts-ignore
@@ -6964,6 +7069,8 @@ export let CONTENT = function (config, pack) {
         alert("你使用的游戏版本不支持复制字符串");
         return;
       }
+      // @ts-ignore
+      // @ts-ignore
       // @ts-ignore
       navigator.clipboard.writeText(text).then(e => {
         alert("复制成功");
@@ -7215,6 +7322,8 @@ export let CONTENT = function (config, pack) {
           // @ts-ignore
           game.qhly_checkFileExist(path, function (success) {
             if (success) {
+              // @ts-ignore
+              // @ts-ignore
               // @ts-ignore
               game.getFileList(path, function (folders, files) {
                 if (files.includes('audio-redirect.js')) {
@@ -7664,6 +7773,8 @@ export let CONTENT = function (config, pack) {
     };
     //播放技能语音。
     // @ts-ignore
+    // @ts-ignore
+    // @ts-ignore
     window.qhly_TrySkillAudio = function (skill, player, directaudio, which, skin) {
       //alert(skill+" "+player.name);
       // @ts-ignore
@@ -7954,6 +8065,8 @@ export let CONTENT = function (config, pack) {
           return Math.abs((angle - this.fadeAngleAreaEnd) / (this.visibleAngleEnd - this.fadeAngleAreaEnd)) / 2;
         },
         // @ts-ignore
+        // @ts-ignore
+        // @ts-ignore
         onClickSkin: function (event, name, skin, skinView) {
           if (this.opacity(skinView) != 1) return;
           // @ts-ignore
@@ -8137,6 +8250,8 @@ export let CONTENT = function (config, pack) {
         background.qh_startClick = true;
       };
       // @ts-ignore
+      // @ts-ignore
+      // @ts-ignore
       var clickOutLeave = function (event) {
         // @ts-ignore
         delete background.qh_startClick;
@@ -8305,6 +8420,8 @@ export let CONTENT = function (config, pack) {
         }
       }
       // @ts-ignore
+      // @ts-ignore
+      // @ts-ignore
       game.qhly_getSkinList(name, function (ret, list) {
         // @ts-ignore
         var pkg = game.qhly_foundPackage(name);
@@ -8428,6 +8545,8 @@ export let CONTENT = function (config, pack) {
             this.cancelClick = false;
           },
           // @ts-ignore
+          // @ts-ignore
+          // @ts-ignore
           handleMouseMove: function (x, y) {
             if (this.isTouching) {
               var slideX = x - this.mouseDownX;
@@ -8472,9 +8591,13 @@ export let CONTENT = function (config, pack) {
             }
           });
           // @ts-ignore
+          // @ts-ignore
+          // @ts-ignore
           content.addEventListener('touchend', function (event) {
             viewState.handleMouseUp();
           });
+          // @ts-ignore
+          // @ts-ignore
           // @ts-ignore
           content.addEventListener('touchcancel', function (event) {
             viewState.handleMouseUp();
@@ -8513,6 +8636,8 @@ export let CONTENT = function (config, pack) {
             viewState.handleMouseMove(event.clientX, event.clientY);
           });
         }
+        // @ts-ignore
+        // @ts-ignore
         // @ts-ignore
         game.qhly_getSkinList(name, function (ret, list) {
           // @ts-ignore
@@ -8598,6 +8723,8 @@ export let CONTENT = function (config, pack) {
           }
           viewState.refresh();
         }, false);
+        // @ts-ignore
+        // @ts-ignore
         // @ts-ignore
         backgroundBack.listen(function (event) {
           exitListener();
@@ -8822,6 +8949,8 @@ export let CONTENT = function (config, pack) {
             this.tempoffset = this.offset;
           },
           // @ts-ignore
+          // @ts-ignore
+          // @ts-ignore
           handleMouseMove: function (x, y) {
             if (this.isTouching) {
               var slideX = x - this.mouseDownX;
@@ -8931,6 +9060,8 @@ export let CONTENT = function (config, pack) {
               this.tempoffset = this.offset;
             },
             // @ts-ignore
+            // @ts-ignore
+            // @ts-ignore
             handleMouseMove: function (x, y) {
               if (this.isTouching) {
                 var slideX = x - this.mouseDownX;
@@ -9038,9 +9169,13 @@ export let CONTENT = function (config, pack) {
             }
           });
           // @ts-ignore
+          // @ts-ignore
+          // @ts-ignore
           content1.addEventListener('touchend', function (event) {
             viewState1.handleMouseUp();
           });
+          // @ts-ignore
+          // @ts-ignore
           // @ts-ignore
           content1.addEventListener('touchcancel', function (event) {
             viewState1.handleMouseUp();
@@ -9055,9 +9190,13 @@ export let CONTENT = function (config, pack) {
             }
           });
           // @ts-ignore
+          // @ts-ignore
+          // @ts-ignore
           content2.addEventListener('touchend', function (event) {
             viewState2.handleMouseUp();
           });
+          // @ts-ignore
+          // @ts-ignore
           // @ts-ignore
           content2.addEventListener('touchcancel', function (event) {
             viewState2.handleMouseUp();
@@ -9129,6 +9268,8 @@ export let CONTENT = function (config, pack) {
         var namex = cPlayer?cPlayer.name1:name;
         var playZhuDynamic = lib.config['extension_千幻聆音_qhly_decadeDynamic'] == 'always' ? false : true;
         // @ts-ignore
+        // @ts-ignore
+        // @ts-ignore
         game.qhly_getSkinList(namex, function (ret, list) {
           // @ts-ignore
           var pkg = game.qhly_foundPackage(namex);
@@ -9165,6 +9306,8 @@ export let CONTENT = function (config, pack) {
             }
             if (dynamicSkinList) {
               if (lib.config['extension_千幻聆音_qhly_decadeDynamic'] == 'three' && dynamicSkinList.length > 3) playZhuDynamic = false;
+              // @ts-ignore
+              // @ts-ignore
               // @ts-ignore
               dynamicSkinList.forEach(function (value, index, array) {
                 array[index] += '.jpg';
@@ -9378,6 +9521,8 @@ export let CONTENT = function (config, pack) {
               skinView.defaultskin.setAttribute('data-sel', false);
             }
             // @ts-ignore
+            // @ts-ignore
+            // @ts-ignore
             (function (name, skin, view) {
               view.listen(function () {
                 if (viewState1.cancelClick) return;
@@ -9429,6 +9574,8 @@ export let CONTENT = function (config, pack) {
           var namey = cPlayer.name2;
           var playFuDynamic = lib.config['extension_千幻聆音_qhly_decadeDynamic'] == 'always' ? false : true;
           // @ts-ignore
+          // @ts-ignore
+          // @ts-ignore
           game.qhly_getSkinList(namey, function (ret, list) {
             // @ts-ignore
             var pkg = game.qhly_foundPackage(namey);
@@ -9465,6 +9612,8 @@ export let CONTENT = function (config, pack) {
               }
               if (dynamicSkinList) {
                 if (lib.config['extension_千幻聆音_qhly_decadeDynamic'] == 'three' && dynamicSkinList.length > 3) playFuDynamic = false;
+                // @ts-ignore
+                // @ts-ignore
                 // @ts-ignore
                 dynamicSkinList.forEach(function (value, index, array) {
                   array[index] += '.jpg';
@@ -9678,6 +9827,8 @@ export let CONTENT = function (config, pack) {
                 skinView.defaultskin.setAttribute('data-sel', false);
               }
               // @ts-ignore
+              // @ts-ignore
+              // @ts-ignore
               (function (name, skin, view) {
                 view.listen(function () {
                   if (viewState2.cancelClick) return;
@@ -9725,6 +9876,8 @@ export let CONTENT = function (config, pack) {
           }, false);
         }
 
+        // @ts-ignore
+        // @ts-ignore
         // @ts-ignore
         backgroundBack.listen(function (event) {
           exitListener();
@@ -9967,6 +10120,8 @@ export let CONTENT = function (config, pack) {
             this.tempoffset = this.offset;
           },
           // @ts-ignore
+          // @ts-ignore
+          // @ts-ignore
           handleMouseMove: function (x, y) {
             if (this.isTouching) {
               var slideX = x - this.mouseDownX;
@@ -10071,6 +10226,8 @@ export let CONTENT = function (config, pack) {
               if (!this.offset) this.offset = content2.offsetLeft;
               this.tempoffset = this.offset;
             },
+            // @ts-ignore
+            // @ts-ignore
             // @ts-ignore
             handleMouseMove: function (x, y) {
               if (this.isTouching) {
@@ -10179,9 +10336,13 @@ export let CONTENT = function (config, pack) {
             }
           });
           // @ts-ignore
+          // @ts-ignore
+          // @ts-ignore
           content1.addEventListener('touchend', function (event) {
             viewState1.handleMouseUp();
           });
+          // @ts-ignore
+          // @ts-ignore
           // @ts-ignore
           content1.addEventListener('touchcancel', function (event) {
             viewState1.handleMouseUp();
@@ -10196,9 +10357,13 @@ export let CONTENT = function (config, pack) {
             }
           });
           // @ts-ignore
+          // @ts-ignore
+          // @ts-ignore
           content2.addEventListener('touchend', function (event) {
             viewState2.handleMouseUp();
           });
+          // @ts-ignore
+          // @ts-ignore
           // @ts-ignore
           content2.addEventListener('touchcancel', function (event) {
             viewState2.handleMouseUp();
@@ -10270,6 +10435,8 @@ export let CONTENT = function (config, pack) {
         var namex = cPlayer?cPlayer.name1:name;
         var playZhuDynamic = lib.config['extension_千幻聆音_qhly_decadeDynamic'] == 'always' ? false : true;
         // @ts-ignore
+        // @ts-ignore
+        // @ts-ignore
         game.qhly_getSkinList(namex, function (ret, list) {
           // @ts-ignore
           var pkg = game.qhly_foundPackage(namex);
@@ -10306,6 +10473,8 @@ export let CONTENT = function (config, pack) {
             }
             if (dynamicSkinList) {
               if (lib.config['extension_千幻聆音_qhly_decadeDynamic'] == 'three' && dynamicSkinList.length > 3) playZhuDynamic = false;
+              // @ts-ignore
+              // @ts-ignore
               // @ts-ignore
               dynamicSkinList.forEach(function (value, index, array) {
                 array[index] += '.jpg';
@@ -10496,6 +10665,8 @@ export let CONTENT = function (config, pack) {
               skinView.defaultskin.setAttribute('data-sel', false);
             }
             // @ts-ignore
+            // @ts-ignore
+            // @ts-ignore
             (function (name, skin, view) {
               view.listen(function () {
                 if (viewState1.cancelClick) return;
@@ -10551,6 +10722,8 @@ export let CONTENT = function (config, pack) {
           var namey = cPlayer.name2;
           var playFuDynamic = lib.config['extension_千幻聆音_qhly_decadeDynamic'] == 'always' ? false : true;
           // @ts-ignore
+          // @ts-ignore
+          // @ts-ignore
           game.qhly_getSkinList(namey, function (ret, list) {
             // @ts-ignore
             var pkg = game.qhly_foundPackage(namey);
@@ -10587,6 +10760,8 @@ export let CONTENT = function (config, pack) {
               }
               if (dynamicSkinList) {
                 if (lib.config['extension_千幻聆音_qhly_decadeDynamic'] == 'three' && dynamicSkinList.length > 3) playFuDynamic = false;
+                // @ts-ignore
+                // @ts-ignore
                 // @ts-ignore
                 dynamicSkinList.forEach(function (value, index, array) {
                   array[index] += '.jpg';
@@ -10775,6 +10950,8 @@ export let CONTENT = function (config, pack) {
                 skinView.defaultskin.setAttribute('data-sel', false);
               }
               // @ts-ignore
+              // @ts-ignore
+              // @ts-ignore
               (function (name, skin, view) {
                 view.listen(function () {
                   if (viewState2.cancelClick) return;
@@ -10826,6 +11003,8 @@ export let CONTENT = function (config, pack) {
             viewState2.refresh();
           }, false);
         }
+        // @ts-ignore
+        // @ts-ignore
         // @ts-ignore
         backgroundBack.listen(function (event) {
           exitListener();
@@ -10917,6 +11096,8 @@ export let CONTENT = function (config, pack) {
       if (lib.config.background_audio) {
         // @ts-ignore
         var sex = player.sex == 'female' ? 'female' : 'male';
+        // @ts-ignore
+        // @ts-ignore
         // @ts-ignore
         var audioinfo = lib.card[card.name].audio;
         // @ts-ignore
@@ -11837,9 +12018,13 @@ export let CONTENT = function (config, pack) {
         }, 800);
       });
       // @ts-ignore
+      // @ts-ignore
+      // @ts-ignore
       subView.avatarImage.addEventListener(lib.config.touchscreen ? "touchmove" : 'mousemove', function (e) {
         clearTimeout(timer);
       });
+      // @ts-ignore
+      // @ts-ignore
       // @ts-ignore
       subView.avatarImage.addEventListener(lib.config.touchscreen ? "touchend" : "mouseup", function (e) {
         // @ts-ignore
@@ -12020,6 +12205,8 @@ export let CONTENT = function (config, pack) {
             }
             //game.qhly_syncChangeSkinButton(name, game.qhly_getSkin(name), state);
           },
+          // @ts-ignore
+          // @ts-ignore
           // @ts-ignore
           init: function (name, state) {
             this.text = ui.create.div('.qh-page-introduce-text', this.pageView);
@@ -12366,6 +12553,8 @@ export let CONTENT = function (config, pack) {
               this.refreshAfterGot(name, state);
             } else {
               // @ts-ignore
+              // @ts-ignore
+              // @ts-ignore
               game.qhly_getSkinList(name, function (ret, list) {
                 this.afterGetSkinList(list, name, state);
                 this.refreshAfterGot(name, state);
@@ -12484,6 +12673,8 @@ export let CONTENT = function (config, pack) {
                   alert("保存失败：无法读取模板。");
                 }
               });
+            // @ts-ignore
+            // @ts-ignore
             // @ts-ignore
             }, function (dialog) {
               return true;
@@ -12736,9 +12927,13 @@ export let CONTENT = function (config, pack) {
                   }
                 });
                 // @ts-ignore
+                // @ts-ignore
+                // @ts-ignore
                 content.addEventListener('touchend', function (event) {
                   that.viewState.handleMouseUp();
                 });
+                // @ts-ignore
+                // @ts-ignore
                 // @ts-ignore
                 content.addEventListener('touchcancel', function (event) {
                   that.viewState.handleMouseUp();
@@ -13308,6 +13503,8 @@ export let CONTENT = function (config, pack) {
                 this.tempoffset = this.offset;
               },
               // @ts-ignore
+              // @ts-ignore
+              // @ts-ignore
               handleMouseMove: function (x, y) {
                 if (!this.isTouching) return;
                 var slideX = x - this.mouseDownX;
@@ -13331,6 +13528,8 @@ export let CONTENT = function (config, pack) {
                 }
                 return true;
               },
+              // @ts-ignore
+              // @ts-ignore
               // @ts-ignore
               handleMouseUp: function (x, y) {
                 if (this.isTouching) {
@@ -13664,6 +13863,8 @@ export let CONTENT = function (config, pack) {
         intro: get.character(name),
         mainView: subView,
       };
+      // @ts-ignore
+      // @ts-ignore
       // @ts-ignore
       subView.menuCover.listen(function (current) {
         if (state.extraMenu) {
@@ -14151,6 +14352,8 @@ export let CONTENT = function (config, pack) {
             }
           },
           // @ts-ignore
+          // @ts-ignore
+          // @ts-ignore
           init: function (name, state) {
             this.text = ui.create.div('.qh-page-introduce-text', this.pageView);
             if (lib.config.qhly_vMiddle === false && (currentViewSkin.isQiLayout || currentViewSkin.isLolBigLayout)) {
@@ -14610,6 +14813,8 @@ export let CONTENT = function (config, pack) {
               this.refreshAfterGot(name, state);
             } else {
               // @ts-ignore
+              // @ts-ignore
+              // @ts-ignore
               game.qhly_getSkinList(name, function (ret, list) {
                 this.afterGetSkinList(list, name, state);
                 this.refreshAfterGot(name, state);
@@ -14713,6 +14918,8 @@ export let CONTENT = function (config, pack) {
                 }
               });
             // @ts-ignore
+            // @ts-ignore
+            // @ts-ignore
             }, function (dialog) {
               return true;
             });
@@ -14722,6 +14929,8 @@ export let CONTENT = function (config, pack) {
             if (this.firstRefresh) {
               var ret = false;
               for (var i = (currentViewSkin.isLolBigLayout ? -1 : 0); i < this.skinList.length; i++) {
+                // @ts-ignore
+                // @ts-ignore
                 // @ts-ignore
                 var skin = this.skinList[i];
                 this.currentIndex = i;
@@ -15740,6 +15949,8 @@ export let CONTENT = function (config, pack) {
         mainView: subView,
       };
       // @ts-ignore
+      // @ts-ignore
+      // @ts-ignore
       subView.menuCover.listen(function (current) {
         if (state.extraMenu) {
           state.extraMenu.delete();
@@ -16590,6 +16801,8 @@ export let CONTENT = function (config, pack) {
       } else {
         originCharacterCardFunciton.apply(this, arguments);
         // @ts-ignore
+        // @ts-ignore
+        // @ts-ignore
         var name = arguments[0];
         var pastArg = arguments;
         if (ui.window.lastChild && ui.window.lastChild.lastChild) {
@@ -16609,6 +16822,8 @@ export let CONTENT = function (config, pack) {
           get: function () {
             return replaceCharacterCardFunction;
           },
+          // @ts-ignore
+          // @ts-ignore
           // @ts-ignore
           set: function (value) {
             if (!lib.config.qhly_mentionConflitCC) {
@@ -16826,6 +17041,8 @@ export let CONTENT = function (config, pack) {
         global: 'gameStart',
       },
       // @ts-ignore
+      // @ts-ignore
+      // @ts-ignore
       filter: function (event, player) {
         // @ts-ignore
         return !_status.qhly_autoChangeSkinSetted && lib.config.qhly_autoChangeSkin && lib.config.qhly_autoChangeSkin != 'close';
@@ -16843,6 +17060,8 @@ export let CONTENT = function (config, pack) {
       trigger: {
         global: 'gameStart',
       },
+      // @ts-ignore
+      // @ts-ignore
       // @ts-ignore
       filter: function (event, player) {
         return lib.config.qhly_randskin;
@@ -17009,6 +17228,8 @@ export let CONTENT = function (config, pack) {
       trigger: {
         global: 'gameStart',
       },
+      // @ts-ignore
+      // @ts-ignore
       // @ts-ignore
       filter: function (event, player) {
         return lib.config.qhly_skinButton;
@@ -17201,6 +17422,8 @@ export let CONTENT = function (config, pack) {
     game.qhly_checkFileExist('extension/千幻聆音/image/diylevels', function (s) {
       if (s && game.getFileList) {
         // @ts-ignore
+        // @ts-ignore
+        // @ts-ignore
         game.getFileList('extension/千幻聆音/image/diylevels', function (folders, files) {
           if (files) {
             // @ts-ignore
@@ -17219,6 +17442,8 @@ export let CONTENT = function (config, pack) {
     // @ts-ignore
     game.qhly_checkFileExist('extension/千幻聆音/music/', function (s) {
       if (s && game.getFileList) {
+        // @ts-ignore
+        // @ts-ignore
         // @ts-ignore
         game.getFileList('extension/千幻聆音/music/', function (folders, files) {
           if (files) {
@@ -17241,6 +17466,8 @@ export let CONTENT = function (config, pack) {
       }
     });
 
+    // @ts-ignore
+    // @ts-ignore
     // @ts-ignore
     game.getFileList('extension/千幻聆音/plugins', function (folders, files) {
       if (files) {
