@@ -273,7 +273,12 @@ export let CONTENT = function (config, pack) {
               dstInfo.deputy = !isPrimary
               setTimeout(() => {
                 player.stopDynamic(isPrimary, !isPrimary)
-                player.playDynamic(dstInfo, !isPrimary);
+                // taffy: 注释contennt.js原版代码喵
+                // player.playDynamic(dstInfo, !isPrimary);
+                /* taffy分界线 */
+                // taffy: 修复变身后动态背景裁剪丢失的问题
+                player.playDynamic(dstInfo, !isPrimary, ui.arena.dataset.dynamicSkinOutcrop == 'on' && ui.arena.dataset.newDecadeStyle == 'on', lib.config['extension_千幻聆音_qhly_ignoreClips']);
+                /* taffy分界线 */
               }, (huanfuEff.delay || 0) * 1000)
               if (dstInfo.background) {
                 player.$dynamicWrap.style.backgroundImage = 'url("' + lib.assetURL + 'extension/十周年UI/assets/dynamic/' + dstInfo.background + '")';
@@ -500,7 +505,12 @@ export let CONTENT = function (config, pack) {
                     }
                   }
                 }
-                player.playDynamic(skinCopy, i == 1, cutdybg, lib.config['extension_千幻聆音_ignoreClips']);
+                // taffy: 注释content.js原版代码喵
+                // player.playDynamic(skinCopy, i == 1, cutdybg, lib.config['extension_千幻聆音_ignoreClips']);
+                /* taffy分界线 */
+                // taffy: 修复忽略clipSlots选项失效的问题喵
+                player.playDynamic(skinCopy, i == 1, cutdybg, lib.config['extension_千幻聆音_qhly_ignoreClips']);
+                /* taffy分界线 */
                 if (i == 0 && skinCopy.decade) res2.zhu = "decade";
                 else if (skinCopy.decade) res2.fu = "decade";
                 res2.status = true;
@@ -1397,8 +1407,14 @@ export let CONTENT = function (config, pack) {
                 skinCopy.beijing.angle = resetBeijing.angle;
               }
             }
+            // taffy: 注释content.js原版代码喵
+            // // @ts-ignore
+            // this.playDynamic(skinCopy, i == 1, ui.arena.dataset.dynamicSkinOutcrop == 'on' && ui.arena.dataset.newDecadeStyle == 'on', lib.config['extension_千幻聆音_ignoreClips']);
+            /* taffy分界线 */
+            // taffy: 修复忽略clipSlots选项失效的问题喵
             // @ts-ignore
-            this.playDynamic(skinCopy, i == 1, ui.arena.dataset.dynamicSkinOutcrop == 'on' && ui.arena.dataset.newDecadeStyle == 'on', lib.config['extension_千幻聆音_ignoreClips']);
+            this.playDynamic(skinCopy, i == 1, ui.arena.dataset.dynamicSkinOutcrop == 'on' && ui.arena.dataset.newDecadeStyle == 'on', lib.config['extension_千幻聆音_qhly_ignoreClips']);
+            /* taffy分界线 */
             // 修改3 start  此处修改是因为动皮和背景加载需要时间, 在动皮加载好之前用一个默认背景代替, 防止武将框黑一片
             // @ts-ignore
             if (i == 0 || !this.dynamic.primary) {
@@ -1864,8 +1880,14 @@ export let CONTENT = function (config, pack) {
             decadeUI.CUR_DYNAMIC--;
           }
           if (skin) {
+            // taffy: 注释content.js原版代码喵
+            // // @ts-ignore
+            // this.playDynamic(skinCopy, deputy, ui.arena.dataset.dynamicSkinOutcrop == 'on' && ui.arena.dataset.newDecadeStyle == 'on', lib.config['extension_千幻聆音_ignoreClips']);
+            /* taffy分界线 */
+            // taffy: 修复忽略clipSlots选项失效的问题喵
             // @ts-ignore
-            this.playDynamic(skinCopy, deputy, ui.arena.dataset.dynamicSkinOutcrop == 'on' && ui.arena.dataset.newDecadeStyle == 'on', lib.config['extension_千幻聆音_ignoreClips']);
+            this.playDynamic(skinCopy, deputy, ui.arena.dataset.dynamicSkinOutcrop == 'on' && ui.arena.dataset.newDecadeStyle == 'on', lib.config['extension_千幻聆音_qhly_ignoreClips']);
+            /* taffy分界线 */
             // @ts-ignore
             decadeUI.CUR_DYNAMIC++;
           }
@@ -1880,8 +1902,14 @@ export let CONTENT = function (config, pack) {
             decadeUI.CUR_DYNAMIC--;
           }
           if (skin) {
+            // taffy: 注释content.js原版代码喵
+            // // @ts-ignore
+            // this.playDynamic(skinCopy, false, ui.arena.dataset.dynamicSkinOutcrop == 'on' && ui.arena.dataset.newDecadeStyle == 'on', lib.config['extension_千幻聆音_ignoreClips']);
+            /* taffy分界线 */
+            // taffy: 修复忽略clipSlots选项失效的问题喵
             // @ts-ignore
-            this.playDynamic(skinCopy, false, ui.arena.dataset.dynamicSkinOutcrop == 'on' && ui.arena.dataset.newDecadeStyle == 'on', lib.config['extension_千幻聆音_ignoreClips']);
+            this.playDynamic(skinCopy, false, ui.arena.dataset.dynamicSkinOutcrop == 'on' && ui.arena.dataset.newDecadeStyle == 'on', lib.config['extension_千幻聆音_qhly_ignoreClips']);
+            /* taffy分界线 */
             // @ts-ignore
             decadeUI.CUR_DYNAMIC++;
             // @ts-ignore
@@ -2137,6 +2165,24 @@ export let CONTENT = function (config, pack) {
               // @ts-ignore
               player.node['avatar' + (i ? '2' : '')].qhly_origin_setBackgroundImage(player._qhly_skinChange[i]);
               // @ts-ignore
+              // taffy: 修复变身后原画消失的问题喵
+              // @ts-ignore
+              game.qhly_checkFileExist(player._qhly_skinChange[i], function (s) {
+                if (s) {
+                  player.node['avatar' + (i ? '2' : '')].qhly_origin_setBackgroundImage(player._qhly_skinChange[i]);
+                } else {
+                  var prefix = game.qhly_foundPackage(playerName).prefix;
+                  if (typeof prefix == 'function') {
+                    prefix = prefix(playerName);
+                  }
+                  if (lib.config.qhly_noSkin == 'origin') {
+                    if (prefix.includes('.jpg')) player.node['avatar' + (i ? '2' : '')].qhly_origin_setBackgroundImage(prefix);//原画
+                    else player.node['avatar' + (i ? '2' : '')].qhly_origin_setBackgroundImage(prefix + playerName + '.jpg');//原画
+                  }
+                  else player.node['avatar' + (i ? '2' : '')].qhly_origin_setBackgroundImage('extension/千幻聆音/image/noSkin.png');//noskin
+                }
+              })
+              /* taffy分界线 */
               if (!_status.qhly_replaceSkin[playerName]) _status.qhly_replaceSkin[playerName] = {};
               // @ts-ignore
               _status.qhly_replaceSkin[playerName][skin] = player._qhly_skinChange[i];
@@ -2229,7 +2275,26 @@ export let CONTENT = function (config, pack) {
           game.qhly_checkPlayerImageAudio(playerName, skin, player, function () {
             if (!player._qhlyIsChanged) player._qhlyIsChanged = [0, 0];
             player._qhlyIsChanged[i] = 1 - player._qhlyIsChanged[i];
-            player.node['avatar' + (i ? '2' : '')].qhly_origin_setBackgroundImage(player._qhly_skinChange[i]);
+            // taffy: 注释content.js原版代码喵
+            // player.node['avatar' + (i ? '2' : '')].qhly_origin_setBackgroundImage(player._qhly_skinChange[i]);
+            /* taffy分界线 */
+            // taffy: 修复变身后原画消失的问题喵
+            game.qhly_checkFileExist(player._qhly_skinChange[i], function (s) {
+              if (s) {
+                player.node['avatar' + (i ? '2' : '')].qhly_origin_setBackgroundImage(player._qhly_skinChange[i]);
+              } else {
+                var prefix = game.qhly_foundPackage(playerName).prefix;
+                if (typeof prefix == 'function') {
+                  prefix = prefix(playerName);
+                }
+                if (lib.config.qhly_noSkin == 'origin') {
+                  if (prefix.includes('.jpg')) player.node['avatar' + (i ? '2' : '')].qhly_origin_setBackgroundImage(prefix);//原画
+                  else player.node['avatar' + (i ? '2' : '')].qhly_origin_setBackgroundImage(prefix + playerName + '.jpg');//原画
+                }
+                else player.node['avatar' + (i ? '2' : '')].qhly_origin_setBackgroundImage('extension/千幻聆音/image/noSkin.png');//noskin
+              }
+            })
+            /* taffy分界线 */
             // @ts-ignore
             if (!_status.qhly_replaceSkin) _status.qhly_replaceSkin = {};
             // @ts-ignore
@@ -2632,7 +2697,12 @@ export let CONTENT = function (config, pack) {
             } else {
               if (skinCopy.dybg) skinCopy.dybg.clip = undefined;
             }
-            node.playDynamic(skinCopy, bool2, cutdybg, lib.config['extension_千幻聆音_ignoreClips']);
+            // taffy: 注释content.js原版代码喵
+            // node.playDynamic(skinCopy, bool2, cutdybg, lib.config['extension_千幻聆音_ignoreClips']);
+            /* taffy分界线 */
+            // taffy: 修复忽略clipSlots选项失效的问题喵
+            node.playDynamic(skinCopy, bool2, cutdybg, lib.config['extension_千幻聆音_qhly_ignoreClips']);
+            /* taffy分界线 */
             node.$dynamicWrap.style.backgroundImage = 'url("' + lib.assetURL + 'extension/十周年UI/assets/dynamic/' + skinCopy.background + '")';
             // @ts-ignore
             game.qhly_checkYH(node);
@@ -2647,7 +2717,12 @@ export let CONTENT = function (config, pack) {
           } else {
             skinCopy.player = skinCopy;
             // 动态背景切 2  -> start, 此处需要把cutdybg参数提到外面初始化
-            node.playDynamic(skinCopy, bool2, cutdybg, lib.config['extension_千幻聆音_ignoreClips']);
+            // taffy: 注释content.js原版代码喵
+            // node.playDynamic(skinCopy, bool2, cutdybg, lib.config['extension_千幻聆音_ignoreClips']);
+            /* taffy分界线 */
+            // taffy: 修复忽略clipSlots选项失效的问题喵
+            node.playDynamic(skinCopy, bool2, cutdybg, lib.config['extension_千幻聆音_qhly_ignoreClips']);
+            /* taffy分界线 */
             // 动态背景切 2  -> end
             //if (get.itemtype(node) != 'player' && !_status.qhly_dynamic[character][skinCopy.name]) _status.qhly_dynamic[character][skinCopy.name] = node.dynamic;
             if (skinCopy.background) {
@@ -3130,6 +3205,23 @@ export let CONTENT = function (config, pack) {
       var realName = name;
       // @ts-ignore
       if (lib.qhly_skinShare[name] && lib.qhly_skinShare[name].name) realName = lib.qhly_skinShare[name].name;
+      // taffy: 修复nameinfo[4]中指定的原画路径信息无法被千幻聆音检测到的问题
+      let nameinfo = get.character(realName);
+      if (nameinfo && nameinfo[4]) for (const value of nameinfo[4]) {
+				if (value.startsWith('ext:')) {
+					realName = value.slice(4).replace(/(.*\/)*([^.]+).*/ig,"$2");
+					break;
+				}
+				else if (value.startsWith('db:')) {
+					realName = value.slice(3).replace(/(.*\/)*([^.]+).*/ig,"$2");
+					break;
+				}
+				else if (value.startsWith('character:')) {
+					realName = value.slice(10);
+					break;
+				}
+			}
+      /* taffy分界线 */
       return realName;
     }
     // @ts-ignore
@@ -3491,6 +3583,26 @@ export let CONTENT = function (config, pack) {
           callback(false);
           return;
         }
+      // taffy: 补充web端读取文件喵
+      } else if (typeof resolveLocalFileSystemURL!='function') {
+        try {
+          game.readFile(lib.assetURL + path, (function (name) {
+            return function (entry) {
+              callback(true);
+            }
+          }(name)), function () {
+            game.getFileList(lib.assetURL + path, (function (name) {
+              return function (entry) {
+                callback(true);
+              }
+            }(name)), function () {
+              callback(false);
+            });
+          });
+        } catch (error) {
+          callback(false);
+        }
+      /* taffy分界线 */
       } else {
         // @ts-ignore
         // @ts-ignore
@@ -6166,6 +6278,9 @@ export let CONTENT = function (config, pack) {
         }
       }
       if (this.classList.contains('qh-must-replace') || (!this.classList.contains('qh-not-replace') && (lib.config.qhly_forceall || (this.classList.contains('avatar') || this.classList.contains('avatar2'))))) {
+        // taffy: 修复千幻与皮切bug喵
+        let that = this;
+        /* taffy分界线 */
         //判断当前的div是否是人物avatar。
         var setByName = function (cname, opath) {
           if (lib.config.qhly_skinset.skin[cname]) {
@@ -6212,7 +6327,26 @@ export let CONTENT = function (config, pack) {
                 destpath = dp;
               }
             }
-            this.qhly_origin_setBackgroundImage(destpath);
+            // taffy: 注释content.js原版代码喵
+            // this.qhly_origin_setBackgroundImage(destpath);
+            /* taffy分界线 */
+            // taffy: 修复千幻与皮切bug喵
+            game.qhly_checkFileExist(destpath, function (s) {
+              if (s) {
+                that.qhly_origin_setBackgroundImage(destpath);
+              } else {
+                var prefix = skinPackage.prefix;
+                if (typeof prefix == 'function') {
+                  prefix = prefix(cname);
+                }
+                if (lib.config.qhly_noSkin == 'origin') {
+                  if (prefix.includes('.jpg')) that.qhly_origin_setBackgroundImage(prefix);//原画
+                  else that.qhly_origin_setBackgroundImage(prefix + cname + '.jpg');//原画
+                }
+                else that.qhly_origin_setBackgroundImage('extension/千幻聆音/image/noSkin.png');//noskin
+              }
+            })
+            /* taffy分界线 */
             return true;
           }
         }.bind(this);
@@ -6300,8 +6434,18 @@ export let CONTENT = function (config, pack) {
                 if (typeof prefix == 'function') {
                   prefix = prefix(cname);
                 }
+                // taffy: 注释content.js原版代码喵
                 // @ts-ignore
-                if (lib.config.qhly_noSkin == 'origin') that.qhly_origin_setBackgroundImage(prefix + realName + '.jpg');//原画
+                // if (lib.config.qhly_noSkin == 'origin') that.qhly_origin_setBackgroundImage(prefix + realName + '.jpg');//原画
+                /* taffy分界线 */
+                // taffy: 修复千幻与皮切bug喵
+                if (lib.config.qhly_noSkin == 'origin') {
+                  // @ts-ignore
+                  if (prefix.includes('.jpg')) that.qhly_origin_setBackgroundImage(prefix);//原画
+                  // @ts-ignore
+                  else that.qhly_origin_setBackgroundImage(prefix + realName + '.jpg');//原画
+                }
+                /* taffy分界线 */
                 // @ts-ignore
                 else that.qhly_origin_setBackgroundImage('extension/千幻聆音/image/noSkin.png');//noskin
               }
@@ -7611,6 +7755,14 @@ export let CONTENT = function (config, pack) {
           return;
         }
       }
+      // taffy: 修复千幻聆音不检测die tag的问题
+      else if (lib.character[name] && lib.character[name][4].some(tag => tag.startsWith('die'))) {
+        var tag = lib.character[name][4].find(tag => tag.startsWith('die'));
+        var list = tag.split(':').slice(1);
+        _status.qhly_audioTry = game.playAudio('die', list.length ? list[0] : name);
+        return;
+      }
+      /* taffy分界线 */
       // @ts-ignore
       var skinPackage = game.qhly_foundPackage(name);
       if (skinPackage.isExt) {
@@ -9568,7 +9720,15 @@ export let CONTENT = function (config, pack) {
                   if (typeof prefix == 'function') {
                     prefix = prefix(namex);
                   }
-                  if (lib.config.qhly_noSkin == 'origin') skinView2.qhly_origin_setBackgroundImage(prefix + namex + '.jpg');//原画
+                  // taffy: 注释content.js原版代码喵
+                  // if (lib.config.qhly_noSkin == 'origin') skinView2.qhly_origin_setBackgroundImage(prefix + namex + '.jpg');//原画
+                  /* taffy分界线 */
+                  // taffy: 修复千幻与皮切bug喵
+                  if (lib.config.qhly_noSkin == 'origin') {
+                    if (prefix.includes('.jpg')) skinView2.qhly_origin_setBackgroundImage(prefix);//原画
+                    else skinView2.qhly_origin_setBackgroundImage(prefix + namex + '.jpg');//原画
+                  }
+                /* taffy分界线 */
                   else skinView2.qhly_origin_setBackgroundImage('extension/千幻聆音/image/noSkin.png');//noskin
                 }
               })
@@ -9874,7 +10034,15 @@ export let CONTENT = function (config, pack) {
                     if (typeof prefix == 'function') {
                       prefix = prefix(namey);
                     }
-                    if (lib.config.qhly_noSkin == 'origin') skinView2.qhly_origin_setBackgroundImage(prefix + namey + '.jpg');//原画
+                    // taffy: 注释content.js原版代码喵
+                    // if (lib.config.qhly_noSkin == 'origin') skinView2.qhly_origin_setBackgroundImage(prefix + namey + '.jpg');//原画
+                    /* taffy分界线 */
+                    // taffy: 修复千幻与皮切bug喵
+                    if (lib.config.qhly_noSkin == 'origin') {
+                      if (prefix.includes('.jpg')) skinView2.qhly_origin_setBackgroundImage(prefix);//原画
+                      else skinView2.qhly_origin_setBackgroundImage(prefix + namey + '.jpg');//原画
+                    }
+                    /* taffy分界线 */
                     else skinView2.qhly_origin_setBackgroundImage('extension/千幻聆音/image/noSkin.png');//noskin
                   }
                 })
@@ -10710,7 +10878,15 @@ export let CONTENT = function (config, pack) {
                   if (typeof prefix == 'function') {
                     prefix = prefix(namex);
                   }
-                  if (lib.config.qhly_noSkin == 'origin') skinView2.qhly_origin_setBackgroundImage(prefix + namex + '.jpg');//原画
+                  // taffy: 注释content.js原版代码喵
+                  // if (lib.config.qhly_noSkin == 'origin') skinView2.qhly_origin_setBackgroundImage(prefix + namex + '.jpg');//原画
+                  /* taffy分界线 */
+                  // taffy: 修复千幻与皮切bug喵
+                  if (lib.config.qhly_noSkin == 'origin') {
+                    if (prefix.includes('.jpg')) skinView2.qhly_origin_setBackgroundImage(prefix);//原画
+                    else skinView2.qhly_origin_setBackgroundImage(prefix + namex + '.jpg');//原画
+                  }
+                /* taffy分界线 */
                   else skinView2.qhly_origin_setBackgroundImage('extension/千幻聆音/image/noSkin.png');//noskin
                 }
               })
@@ -10996,7 +11172,15 @@ export let CONTENT = function (config, pack) {
                     if (typeof prefix == 'function') {
                       prefix = prefix(namey);
                     }
-                    if (lib.config.qhly_noSkin == 'origin') skinView2.qhly_origin_setBackgroundImage(prefix + namey + '.jpg');//原画
+                    // taffy: 注释content.js原版代码喵
+                    // if (lib.config.qhly_noSkin == 'origin') skinView2.qhly_origin_setBackgroundImage(prefix + namey + '.jpg');//原画
+                    /* taffy分界线 */
+                    // taffy: 修复千幻与皮切bug喵
+                    if (lib.config.qhly_noSkin == 'origin') {
+                      if (prefix.includes('.jpg')) skinView2.qhly_origin_setBackgroundImage(prefix);//原画
+                      else skinView2.qhly_origin_setBackgroundImage(prefix + namey + '.jpg');//原画
+                    }
+                    /* taffy分界线 */
                     else skinView2.qhly_origin_setBackgroundImage('extension/千幻聆音/image/noSkin.png');//noskin
                   }
                 })
@@ -11363,7 +11547,7 @@ export let CONTENT = function (config, pack) {
           // @ts-ignore
           delete _status.qhly_skillAudioWhich;
           // @ts-ignore
-          if (window.inSplash && game.qhly_hasExtension("如真似幻")) { 
+          if (window.inSplash && game.qhly_hasExtension("如真似幻")) {
             ui.window.remove();
           }
         });
@@ -12910,7 +13094,15 @@ export let CONTENT = function (config, pack) {
                       if (typeof prefix == 'function') {
                         prefix = prefix(name);
                       }
-                      if (lib.config.qhly_noSkin == 'origin') skinView2.qhly_origin_setBackgroundImage(prefix + name + '.jpg');//原画
+                      // taffy: 注释content.js原版代码喵
+                      // if (lib.config.qhly_noSkin == 'origin') skinView2.qhly_origin_setBackgroundImage(prefix + name + '.jpg');//原画
+                      /* taffy分界线 */
+                      // taffy: 修复千幻与皮切bug喵
+                      if (lib.config.qhly_noSkin == 'origin') {
+                        if (prefix.includes('.jpg')) skinView2.qhly_origin_setBackgroundImage(prefix);//原画
+                        else skinView2.qhly_origin_setBackgroundImage(prefix + name + '.jpg');//原画
+                      }
+                      /* taffy分界线 */
                       else skinView2.qhly_origin_setBackgroundImage('extension/千幻聆音/image/noSkin.png');//noskin
                     }
                   })
@@ -14087,7 +14279,7 @@ export let CONTENT = function (config, pack) {
                 game.saveConfig('qhly_metioned_slimName',true);
               }
             }
-            return get.translation(name);              
+            return get.translation(name);
           }else{
             switch(pattern){
               case "full":
@@ -16299,7 +16491,7 @@ export let CONTENT = function (config, pack) {
                 game.saveConfig('qhly_metioned_slimName',true);
               }
             }
-            return get.translation(name);              
+            return get.translation(name);
           }else{
             switch(pattern){
               case "full":
@@ -17477,6 +17669,9 @@ export let CONTENT = function (config, pack) {
       }
     });
 
+    // taffy: Web端判断getFileList函数是否存在喵
+    if (game.getFileList) {
+    /* taffy分界线 */
     // @ts-ignore
     // @ts-ignore
     // @ts-ignore
@@ -17490,6 +17685,13 @@ export let CONTENT = function (config, pack) {
         }
       }
     });
+    // Web端判断getFileList函数是否存在喵
+    } else {
+      for (let file of ['ai.js', 'code.js', 'diycard.js', 'effectTest.js', 'record.js']) {
+        lib.init.js(lib.qhly_path + '/plugins/' + file);
+      }
+    }
+    /* taffy分界线 */
 
     // @ts-ignore
     game.qhly_refreshSuits = function(){
